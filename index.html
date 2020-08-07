@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <style>
+        #submit {
+            position: absolute;
+            top: 65%;
+        }
+        p {
+            display: inline;
+        }
+        #pageReload {
+            position: absolute;
+            top: 70%;
+            background-color: green;
+        }
+        #reset {
+            position: absolute;
+            top: 75%;
+            background-color: grey;
+        }
+    </style>
+</head>
+<body>
+
+
+    <h2 id="question1"></h2>
+    <input id="q1a1" type="radio" name="question1" value="New York Bulls"><label id="lbl1" for="q1a1"></label><p id="message1">  </p><br>
+    <input id="q1a2" type="radio" name="question1" value="Los Angeles Kings"><label id="lbl2" for="q1a2"></label><p id="message2"></p><br>
+    <input id="q1a3" type="radio" name="question1" value="Golden State Warrirors"><label id="lbl3" for="q1a3"></label><p id="message3"></p><br>
+    <input id="q1a4" type="radio" name="question1" value="Huston Rocket"><label id="lbl4" for="q1a4"></label><p id="message4"></p><br>
+
+    <h2 id="question2"></h2>
+    <input id="q2a1" type="radio" name="question2" value="Hindi"><label id="lbl5" for="q2a1"></label><p id="message5"></p><br>
+    <input id="q2a2" type="radio" name="question2" value="Mandarin"><label id="lbl6" for="q2a2"></label><p id="message6"></p><br>
+    <input id="q2a3" type="radio" name="question2" value="Nepalese"><label id="lbl7" for="q2a3"></label><p id="message7"></p><br>
+    <input id="q2a4" type="radio" name="question2" value="Thai"><label id="lbl8" for="q2a4"></label><p id="message8"></p><br>
+
+    <h2 id="question3"></h2>
+    <input id="q3a1" type="radio" name="question3" value="Berlin"><label id="lbl9" for="q3a1"></label><p id="message9"></p><br>
+    <input id="q3a2" type="radio" name="question3" value="Paris"><label id="lbl10" for="q3a2"></label><p id="message10"></p><br>
+    <input id="q3a3" type="radio" name="question3" value="Rome"><label id="lbl11" for="q3a3"></label><p id="message11"></p><br>
+    <input id="q3a4" type="radio" name="question3" value="London"><label id="lbl12" for="q3a4"></label><p id="message12"></p><br>
+
+    <h2 id="question4"></h2>
+    <input id="q4a1" type="radio" name="question4" value="Pablo Picasso"><label id="lbl13" for="q4a1"></label><p id="message13"></p><br>
+    <input id="q4a2" type="radio" name="question4" value="Vincent van Gogh"><label id="lbl14" for="q4a2"></label><p id="message14"></p><br>
+    <input id="q4a3" type="radio" name="question4" value="Salvador Dalí"><label id="lbl15" for="q4a3"></label><p id="message15"></p><br>
+    <input id="q4a4" type="radio" name="question4" value="Edgar Degas"><label id="lbl16" for="q4a4"></label><p id="message16"></p><br>
+
+    <br>
+    <input id="submit" type="submit" value="Submit Your Answers">
+    <br>
+    <input id="pageReload" type="submit" value="Check Your Answers (Submit Your Answers First)">
+    <br>
+    <input id="reset" type="submit" value="Do Quiz Again">
+
+    <script src="variables.js"></script>
+    <script src="savingStorage.js"></script>
+    <script src="showingAnswers.js"></script>
+    <script src="pageReload.js"></script>
+    <script src="resetQuiz.js"></script>
+    <script>
+
+    /*****************BUTTON VARIABLES********************/
+    
+
+    var submit = document.getElementById("submit");
+    var pageReload = document.getElementById("pageReload");
+    var resetButton = document.getElementById("reset");
+
+
+
+    /*****************FETCHING DATA FROM SERVER*************/
+     
+    var data = 
+        fetch('https://www.link-elearning.com/linkdl/coursefiles/1470/quiz.json').then(function (response) {
+                return response.json(); 
+            }).then(function(questions) {
+                question1.innerHTML
+            += "Question 1:" + " " + questions.quiz.q1.question;
+                lbl1.innerHTML
+            +=  questions.quiz.q1.options[0];
+                lbl2.innerHTML
+            +=  questions.quiz.q1.options[1];
+                lbl3.innerHTML
+            +=  questions.quiz.q1.options[2];
+                lbl4.innerHTML
+            +=  questions.quiz.q1.options[3];
+
+                question2.innerHTML
+            +=  "Question 2:" + " " + questions.quiz.q2.question;
+                lbl5.innerHTML
+            +=  questions.quiz.q2.options[0];
+                lbl6.innerHTML
+            +=  questions.quiz.q2.options[1];
+                lbl7.innerHTML
+            +=  questions.quiz.q2.options[2];
+                lbl8.innerHTML
+            +=  questions.quiz.q2.options[3];
+
+                question3.innerHTML
+            +=  "Question 3:" + " " + questions.quiz.q3.question;
+                lbl9.innerHTML
+            +=  questions.quiz.q3.options[0];
+                lbl10.innerHTML
+            +=  questions.quiz.q3.options[1];
+                lbl11.innerHTML
+            +=  questions.quiz.q3.options[2];
+                lbl12.innerHTML
+            +=  questions.quiz.q3.options[3];
+
+                question4.innerHTML 
+            +=  "Question 4:" + " " + questions.quiz.q4.question;
+                lbl13.innerHTML
+            +=  questions.quiz.q4.options[0];
+                lbl14.innerHTML
+            +=  questions.quiz.q4.options[1];
+                lbl15.innerHTML
+            +=  questions.quiz.q4.options[2];
+                lbl16.innerHTML
+            +=  questions.quiz.q4.options[3];
+            });
+
+
+    /******************FUNCTION CALL FOR SAVING ANSWERS IN LOCAL STORAGE*************/
+
+
+    var answer1 = firstChoice();
+    var answer2 = secondChoice();
+    var answer3 = thirdChoice();
+    var answer4 = fourthChoice();
+
+    var value = localStorage.getItem('Answer1');
+    var value2 = localStorage.getItem('Answer2');
+    var value3 = localStorage.getItem('Answer3');
+    var value4 = localStorage.getItem('Answer4');
+
+    
+    /******************PAGE RELOAD*******************/
+
+    var check = checkAnswersQuestion1();
+    var check2 = checkAnswersQuestion2();
+    var check3 = checkAnswersQuestion3();
+    var check4 = checkAnswersQuestion4();
+
+
+    var pageIsReloaded = reloadYourPage();
+
+
+    /******************RESET BUTTON*********************/
+
+
+    var playAgain = doQuizAgain();
+
+
+   
+    
+
+
+
+
+
+
+    
+
+    
+
+    
+
+
+    
+
+
+        
+
+
+        
+
+    
+
+
+   
+
+        
+   
+
+    
+
+    
+
+
+
+
+            
+
+        
+
+    
+
+    </script> 
+</body>
+</html>
